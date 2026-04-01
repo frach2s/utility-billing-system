@@ -95,7 +95,7 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 	// ========== SETTERS ==========
 	
 	public void setAccountNumber(String accountNumber){
-		this.AccountNumber = accountNumber;
+		this.accountNumber = accountNumber;
 	}
 	
 	public void setCustomerName(String customerName){
