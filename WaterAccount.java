@@ -1,7 +1,7 @@
 public class WaterAccount extends SubscriptionAccount implements Reconnectable {
 	// fields
-	private double waterRatePerUnit;
-	private double environmentalFee; // water acc self declared variables
+	private double waterRatePerUnit = 8;
+	private double environmentalFee = 30; // water acc self declared variables
 	
 	// constructors
 	public WaterAccount() {} // default constructor (empty)

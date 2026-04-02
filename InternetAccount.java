@@ -21,21 +21,25 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
 	}
 	
 	// methods
-	@Override
-	public double computeMonthlyBill() {
-		double basePlan = 0;
+	 @Override
+    public double computeMonthlyBill() {
 
-		if (speedPlan.equals("Basic")) basePlan = 999;
-		else if (speedPlan.equals("Standard")) basePlan = 1499;
-		else if (speedPlan.equals("Premium")) basePlan = 1999; // based this on the standard internet plan (modify niyo nalang if may iba kayong gusto)
-		
-		double total = basePlan
-                 + modemFee
-                 + reconnectionCharge
-                 + getPreviousBalance();
-		setFinalBill(total);
-		return total;
-	}
+        double basePlan = 0;
+
+        String plan = getPlanTier();
+
+        if (plan.equalsIgnoreCase("Basic")) basePlan = 999;
+        else if (plan.equalsIgnoreCase("Standard")) basePlan = 1499;
+        else if (plan.equalsIgnoreCase("Premium")) basePlan = 1999;
+
+        double total = basePlan
+                + modemFee
+                + reconnectionCharge
+                + getPreviousBalance();
+
+        setFinalBill(total);
+        return total;
+    }
 
     @Override
     public String getServiceType() {
@@ -43,21 +47,24 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
     }
 
     @Override
-	public String getBillingBreakdown() {
-		double basePlan = 0;
+    public String getBillingBreakdown() {
 
-		if (speedPlan.equals("Basic")) basePlan = 999;
-		else if (speedPlan.equals("Standard")) basePlan = 1499;
-		else if (speedPlan.equals("Premium")) basePlan = 1999; // based this on the standard internet plan (modify niyo nalang if may iba kayong gusto)
+        double basePlan = 0;
 
-		return "Plan: " + speedPlan +
-           "\nBase Plan Fee: " + basePlan +
-           "\nModem Fee: " + modemFee +
-           "\nReconnection Charge: " + reconnectionCharge +
-           "\nPrevious Balance: " + getPreviousBalance() +
-           "\n----------------------" +
-           "\nTotal Bill: " + getFinalBill();
-	}
+        String plan = getPlanTier();
+
+        if (plan.equalsIgnoreCase("Basic")) basePlan = 999;
+        else if (plan.equalsIgnoreCase("Standard")) basePlan = 1499;
+        else if (plan.equalsIgnoreCase("Premium")) basePlan = 1999;
+
+        return "Plan: " + plan +
+                "\nBase Plan Fee: " + basePlan +
+                "\nModem Fee: " + modemFee +
+                "\nReconnection Charge: " + reconnectionCharge +
+                "\nPrevious Balance: " + getPreviousBalance() +
+                "\n----------------------" +
+                "\nTotal Bill: " + getFinalBill();
+    }
 	
 	// reconnectable
     @Override

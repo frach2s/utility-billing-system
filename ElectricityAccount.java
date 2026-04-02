@@ -1,8 +1,8 @@
 public class ElectricityAccount extends SubscriptionAccount implements Reconnectable {
     // fields
-    private double meterRate;
-    private double generationCharge;
-    private double serviceAvailabilityFee; // elec acc self declared variables
+    private double meterRate = 10;
+    private double generationCharge = 150;
+    private double serviceAvailabilityFee = 75; // elec acc self declared variables
 
     // constructors
     public ElectricityAccount() {} // default constructor (empty)

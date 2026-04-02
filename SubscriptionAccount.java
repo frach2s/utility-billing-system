@@ -177,5 +177,25 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 	//System.out.print(acc); ka nlng tas map-print na yung nsa loob ng build summary withgout using acc.BuildSummary
         return buildBasicSummary();  
         }
+ 
+@Override // para ma compile yung mga acc (internet,elec,water,bundled) naglalabas kasi ng error na abt sa abstract keme staka cannot be override keme..-james
+public void printStatementTitle(double amount){
+    System.out.println("Payment processed: " + amount);
+}
+
+@Override
+public void printStatementTitle(double amount, String paymentNote){
+    System.out.println("Payment processed: " + amount + " (" + paymentNote + ")");
+}
+
+@Override
+public boolean validatePaymentStatus(){
+    return finalBill <= 0;
+}
+
+@Override
+public double getOutstandingBalance(){
+    return finalBill;
+}
 
 }
