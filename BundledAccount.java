@@ -46,14 +46,14 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 	
 	@Override 
 	public String getServiceType() {
-		return "Internet Bundle Servvice";
+		return "Internet Bundle Service";
 	}
 	
 	  @Override
     public String getBillingBreakdown() {
 
         double subtotal = electricityCharge + waterCharge + internetCharge;
-        double discount = subtotal * bundleDiscountRate;
+        double discount = bundleDiscountRate > 0 ? subtotal * bundleDiscountRate : 0;
 
         return "========= BUNDLE BREAKDOWN =========" +
                "\nElectricity: " + electricityCharge +
@@ -69,19 +69,19 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 	
 	
 	@Override
-public String printStatementTitle() {
-    return "========= BUNDLED UTILITY BILL =========";
-}
+	public String printStatementTitle() {
+		return "========= BUNDLED UTILITY BILL =========";
+	}
 
-@Override
-public String getStatementBody() {
-    return getBillingBreakdown();
-}
+	@Override
+	public String getStatementBody() {
+		return getBillingBreakdown();
+	}
 
-@Override
-public String getStatementFooter() {
-    return "Total: " + getFinalBill();
-}
+	@Override
+	public String getStatementFooter() {
+		return "Total: " + getFinalBill();
+	}
 	
 	
 	//Reconnectable

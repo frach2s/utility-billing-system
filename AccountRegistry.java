@@ -29,13 +29,31 @@ public class AccountRegistry { //YONG MGA PRIVATE FIELDS
 		return null;
 	}
 	
-	public void listAllAccounts() {
-		AccountRegistryNode current = head;
-		while (current != null) {
-			System.out.println(current.getAccount());
-			current = current.getNext();
-		}
+	public void listAllAccounts() { //spacing don sa listing
+
+	if (head == null) {
+		System.out.println("No accounts registered.");
+		return;
 	}
+
+	AccountRegistryNode current = head;
+	int count = 1;
+
+	while (current != null) {
+
+		System.out.println("----------------------------------------");
+		System.out.println("Account #" + count);
+		System.out.println("----------------------------------------");
+
+		System.out.println(current.getAccount());
+
+		System.out.println("----------------------------------------");
+		System.out.println(); 
+
+		current = current.getNext();
+		count++;
+	}
+}
 	
 	public int getSize() {
 		return size;
