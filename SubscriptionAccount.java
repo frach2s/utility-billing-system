@@ -177,6 +177,40 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 	//System.out.print(acc); ka nlng tas map-print na yung nsa loob ng build summary withgout using acc.BuildSummary
         return buildBasicSummary();  
         }
- 
+	//abstract methods from interface printable statement- subclasses will override these
+    public abstract String printStatementTitle();
+    public abstract String getStatementBody();
+    public abstract String getStatementFooter();
+    public abstract void printStatement();
+    public abstract void printStatement(boolean shortMode);
+  
+    @Override //fixed: nagkamali ako sa interface kaya nag e-error -xtian
+    public void processPayment(double amount) {
+       this.finalBill -= amount;
+       if (this.finalBill <= 0) {
+         this.finalBill = 0;
+         this.paymentStatus = "Paid";
+        } else {
+        this.paymentStatus = "Partial";
+        }
+        System.out.println("Payment of " + amount + " processed.");
+    }
+
+    @Override
+    public void processPayment(double amount, String paymentNote) {
+    processPayment(amount);
+      this.serviceRequestNote = paymentNote;
+      System.out.println("Note: " + paymentNote);
+    }
+
+    @Override
+    public boolean validatePaymentStatus() {
+    return this.paymentStatus.equals("Paid");
+    }
+
+    @Override
+    public double getOutstandingBalance() {
+    return this.finalBill;
+    }
 
 }
