@@ -193,7 +193,7 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
     public void processPayment(double amount) {
         this.paidAmount += amount; /
         if (this.paidAmount >= this.finalBill) {
-            this.paidAmount    = this.finalBill; /
+            this.paidAmount    = this.finalBill; 
             this.paymentStatus = "Paid";
         } else {
             this.paymentStatus = "Partially Paid"; 
