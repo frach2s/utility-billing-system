@@ -125,28 +125,42 @@ public class UtilityConsoleApp {
         }
     }
 
-    private void enterUsage() { //SA USER
-        System.out.println("\n--- Enter Usage ---\n");
+		private void enterUsage() {
+		System.out.println("\n--- Enter Usage ---\n");
 
-        System.out.print("Enter Account Number: ");
-        String accNum = scanner.next();
+		System.out.print("Enter Account Number: ");
+		String accNum = scanner.next();
 
-        SubscriptionAccount acc = registry.findAccount(accNum);
-		
+		SubscriptionAccount acc = registry.findAccount(accNum);
+
 		if (acc == null) {
-            System.out.println("\nAccount not found.\n");
-            return;
-         }
+			System.out.println("\nAccount not found.\n");
+			return;
+		}
 
+		if (acc instanceof BundledAccount) {
+			BundledAccount bundled = (BundledAccount) acc;
 
- 
-        System.out.print("Enter Usage: ");
-        double usage = scanner.nextDouble();
+			System.out.print("Enter Electricity Usage (kWh): ");
+			double elecUsage = scanner.nextDouble();
 
-        acc.updateUsage(usage);
+			System.out.print("Enter Water Usage (units): ");
+			double waterUsage = scanner.nextDouble();
 
-        System.out.println("\nUsage updated successfully.\n");
-    }
+			// calculate charges immediately
+			bundled.setElectricityCharge(elecUsage * 10); // rate: 10 per kWh
+			bundled.setWaterCharge(waterUsage * 8);        // rate: 8 per unit
+			// internet is flat rate — no usage needed
+
+			System.out.println("\nUsage updated successfully.\n");
+
+		} else {
+			System.out.print("Enter Usage: ");
+			double usage = scanner.nextDouble();
+			acc.updateUsage(usage);
+			System.out.println("\nUsage updated successfully.\n");
+		}
+	}
 
     private void computeBill() { //COMPUTATION
         System.out.println("\n--- Compute Bill ---\n");
@@ -163,8 +177,21 @@ public class UtilityConsoleApp {
 
         double bill = acc.computeMonthlyBill();
 
-        System.out.println("\nMonthly Bill (Ready to Pay): " + bill + "\n");
-    }
+        System.out.println("\n================================================");
+		System.out.println("           MONTHLY SERVICE STATEMENT");
+		System.out.println("================================================");
+		System.out.println("Account No.    : " + acc.getAccountNumber());
+		System.out.println("Customer Name  : " + acc.getCustomerName());
+		System.out.println("Service Type   : " + acc.getServiceType());
+		System.out.println("Plan Tier      : " + acc.getPlanTier());
+		System.out.println("Household Type : " + acc.getHouseholdType());
+		System.out.println("------------------------------------------------");
+		System.out.println(acc.getBillingBreakdown());
+		System.out.println("------------------------------------------------");
+		System.out.println("Payment Status : " + acc.getPaymentStatus());
+		System.out.println("Service Status : " + (acc.isActive() ? "Active" : "Inactive"));
+		System.out.println("================================================\n");
+			}
 
     private void applyLatePenalty() { //PENALTY KINEME
         System.out.println("\n--- Apply Late Penalty ---\n");
@@ -246,7 +273,8 @@ public class UtilityConsoleApp {
 
         if (acc instanceof ElectricityAccount) ((ElectricityAccount) acc).requestPlanChange(newPlan);
         else if (acc instanceof WaterAccount) ((WaterAccount) acc).requestPlanChange(newPlan);
-        else if (acc instanceof InternetAccount) ((InternetAccount) acc).requestPlanChange(newPlan);
+		else if (acc instanceof InternetAccount) ((InternetAccount) acc).requestPlanChange(newPlan);
+		else if (acc instanceof BundledAccount) ((BundledAccount) acc).requestPlanChange(newPlan);
 
         System.out.println("\nPlan changed to " + newPlan + ".\n");
     }
@@ -273,19 +301,24 @@ public class UtilityConsoleApp {
     }
 
     private void reconnectService() {
-        System.out.println("\n--- Reconnect Service ---\n");
+		System.out.println("\n--- Reconnect Service ---\n");
 
-        System.out.print("Enter Account Number: ");
-        String accNum = scanner.next();
+		System.out.print("Enter Account Number: ");
+		String accNum = scanner.next();
 
-        SubscriptionAccount acc = registry.findAccount(accNum);
+		SubscriptionAccount acc = registry.findAccount(accNum);
 
-        if (acc instanceof Reconnectable) {
-            Reconnectable r = (Reconnectable) acc;
-            r.reconnectService();
-            System.out.println();
-        }
-    }
+		if (acc == null) {
+			System.out.println("\nAccount not found.\n");
+			return;
+		}
+
+		if (acc instanceof Reconnectable) {
+			Reconnectable r = (Reconnectable) acc;
+			r.reconnectService();
+			System.out.println();
+		}
+	}
 
     private void printDetailedStatement() { 
         System.out.println("\n--- Detailed Statement ---\n");

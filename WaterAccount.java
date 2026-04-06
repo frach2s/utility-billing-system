@@ -71,18 +71,61 @@ public class WaterAccount extends SubscriptionAccount implements Reconnectable {
         return isActive() ? "Service is active." : "Service is eligible for reconnection."; // status
     }
 	
+	//=======================================================//
 	// overloaded methods
 	public void requestPlanChange(String newPlan) {
-		setPlanTier(newPlan);
-		setServiceRequestNote("Plan change requested");
-		System.out.println("Plan changed to: " + newPlan); // the new plan depends on the inseted value of the user
-	}
+    if (getPlanTier().equalsIgnoreCase(newPlan)) { //kukunin nya ung current plan through getplantier() tas compare sa nya sa newplan then if it is the same then mag-out na sa method
+        System.out.println("Current plan is already " + newPlan + ". No changes made.");
+        return;
+    }
+    String oldPlan = getPlanTier();
+    String current = oldPlan.toLowerCase();
+    String next = newPlan.toLowerCase();
+	
+	
+	//isUpgrade is true if current is basic AND next is standard or premium, OR if current is standard AND next is premium
+    boolean isUpgrade = (current.equals("basic") && (next.equals("standard") || next.equals("premium"))) || (current.equals("standard") && next.equals("premium"));
 
-	public void requestPlanChange(String newPlan, String effectiveCycle) {
-		setPlanTier(newPlan);
-		setServiceRequestNote("Plan change requested");
-		System.out.println("Plan will change to " + newPlan + " on " + effectiveCycle); // same output plus the new parameter
+    boolean isDowngrade = (current.equals("premium") && (next.equals("standard") || next.equals("basic"))) || (current.equals("standard") && next.equals("basic"));
+
+	//eto since di pede magsabay ang downgrade and upgradee eto ung magh-handle neto
+    if (isUpgrade) {
+        System.out.println("Upgrading plan from " + oldPlan + " to " + newPlan + ".");
+    } else if (isDowngrade) {
+        System.out.println("Downgrading plan from " + oldPlan + " to " + newPlan + ".");
+    }
+
+    setPlanTier(newPlan);
+    setServiceRequestNote("Plan change requested: " + oldPlan + " to " + newPlan);
+    System.out.println("Plan successfully changed to: " + newPlan);
 	}
+	
+	//verload
+	public void requestPlanChange(String newPlan, String effectiveCycle) {
+		if (getPlanTier().equalsIgnoreCase(newPlan)) {
+        System.out.println("Current plan is already " + newPlan + ". No changes made.");
+        return;
+    }
+    String oldPlan = getPlanTier();
+    String current = oldPlan.toLowerCase();
+    String next = newPlan.toLowerCase();
+
+    boolean isUpgrade = (current.equals("basic") && (next.equals("standard") || next.equals("premium"))) || (current.equals("standard") && next.equals("premium"));
+
+    boolean isDowngrade = (current.equals("premium") && (next.equals("standard") || next.equals("basic"))) || (current.equals("standard") && next.equals("basic"));
+
+    if (isUpgrade) {
+        System.out.println("Upgrading plan from " + oldPlan + " to " + newPlan + ".");
+    } else if (isDowngrade) {
+        System.out.println("Downgrading plan from " + oldPlan + " to " + newPlan + ".");
+    }
+
+    setPlanTier(newPlan);
+    setServiceRequestNote("Plan change requested: " + oldPlan + " to " + newPlan);
+    System.out.println("Plan will take effect on: " + effectiveCycle);
+    System.out.println("Plan successfully changed to: " + newPlan);
+	}
+	//=======================================================//
 	
 	@Override
     public String printStatementTitle() {
