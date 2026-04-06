@@ -463,27 +463,26 @@ public class UtilityConsoleApp {
 
     // =====================  PRINT SHORT SUMMARY =====================
     private void printShortSummary() {
-		System.out.println(" ============================");
-        System.out.println(" ACCOUNT SUMMARY \n");
-		System.out.println(" ============================");
+		System.out.println("----------------------------------------");
+		System.out.println("ACCOUNT SUMMARY");
+		System.out.println("----------------------------------------\n\n");
 
-        System.out.print("Account Number: ");
-        String accNum = scanner.next();
-        scanner.nextLine();
+		System.out.print("Account Number: ");
+			String accNum = scanner.next();
+			scanner.nextLine();
 
-        SubscriptionAccount acc = registry.findAccount(accNum);
-        if (acc == null) {
-            System.out.println("\nAccount not found.\n");
-            return;
-        }
+		SubscriptionAccount acc = registry.findAccount(accNum);
+		if (acc == null) {
+			System.out.println("\nAccount not found.\n");
+        return;
+		}
 
-     
-        if (acc instanceof PrintableStatement) {
-            PrintableStatement p = (PrintableStatement) acc;
-            p.printStatement(true);
-        }
-        System.out.println();
-    }
+		if (acc instanceof PrintableStatement) {
+			PrintableStatement p = (PrintableStatement) acc;
+			p.printStatement(true);
+		}
+		System.out.println();
+	}
 
     // =====================  LIST ALL ACCOUNTS =====================
     private void listAllAccounts() {

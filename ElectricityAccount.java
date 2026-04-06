@@ -151,13 +151,20 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
     }
 
     @Override
-    public void printStatement(boolean shortMode) {
-        if (shortMode) {
-            System.out.println("Electricity Bill: " + getFinalBill()); // simplified display
-        } else {
-            printStatement(); // all-out display
-        }
-    }
+	public void printStatement(boolean shortMode) {
+    if (shortMode) {
+        System.out.println("Account No.    : " + getAccountNumber());
+        System.out.println("Customer Name  : " + getCustomerName());
+			System.out.println("Service Type   : " + getServiceType());
+        System.out.println("Plan Tier      : " + getHouseholdType() + " " + getPlanTier());
+			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
+			System.out.println("Payment Status : " + getPaymentStatus());
+			System.out.println("Service Status : " + (isActive() ? "Active" : "For Monitoring"));
+			System.out.println("----------------------------------------");
+		} else {
+			printStatement();
+		}
+	}
 	
 	public void setMeterRate(double meterRate) { 
 		this.meterRate = meterRate; 

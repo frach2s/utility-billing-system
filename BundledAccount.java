@@ -31,9 +31,6 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 
     @Override
     public double computeMonthlyBill() {
-    
-      
-
         // internet charge based on plan tier
         internetCharge = 999; // Basic default
         String plan = getPlanTier();
@@ -183,22 +180,19 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
     // printStatement 
     @Override
     public void printStatement(boolean shortMode) {
-        if (shortMode) {
-            System.out.println("=========================================");
-            System.out.println("         ACCOUNT SUMMARY                ");
-            System.out.println("=========================================");
-            System.out.println("Account No.    : " + getAccountNumber());
-            System.out.println("Customer Name  : " + getCustomerName());
-            System.out.println("Service Type   : " + getServiceType());
-            System.out.println("Plan Tier      : " + getPlanTier());
-            System.out.println("Remaining Bal. : " + String.format("%.2f", getOutstandingBalance()));
-            System.out.println("Payment Status : " + getPaymentStatus());
-            System.out.println("Service Status : " + (isActive() ? "Active" : "Inactive"));
-            System.out.println("----------------------------------------");
-        } else {
-            printStatement();
-        }
-    }
+		if (shortMode) {
+			System.out.println("Account No.    : " + getAccountNumber());
+			System.out.println("Customer Name  : " + getCustomerName());
+			System.out.println("Service Type   : " + getServiceType());
+			System.out.println("Plan Tier      : " + getHouseholdType() + " " + getPlanTier());
+			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
+			System.out.println("Payment Status : " + getPaymentStatus());
+			System.out.println("Service Status : " + (isActive() ? "Active" : "For Monitoring"));
+			System.out.println("----------------------------------------");
+		} else {
+			printStatement();
+		}
+	}
 
     // ===================== FROM PRINTABLESTATEMENT (INTERFACE) =====================
 
