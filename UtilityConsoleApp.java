@@ -90,7 +90,7 @@ public class UtilityConsoleApp {
         System.out.print("Household Type: ");
         String house = scanner.nextLine();
 
-        System.out.println("\nChoose Plan Tier:");
+        System.out.println("\nChoose Plan Tier for your Internet:");
         System.out.println("1. Basic");
         System.out.println("2. Standard");
         System.out.println("3. Premium");
@@ -113,36 +113,13 @@ public class UtilityConsoleApp {
 		else if (type == 4) acc = new BundledAccount(accNum, name);
 
 		if (acc != null) {
-
 			acc.setAddress(address);
 			acc.setHouseholdType(house);
 			acc.setPlanTier(plan);
 			acc.setActive(true);
 			acc.setPaymentStatus("Unpaid");
 
-
-			// yong sa bundle inputs
-			if (acc instanceof BundledAccount) {
-
-				BundledAccount bundle = (BundledAccount) acc;
-
-				System.out.println("\nEnter Bundle Service Charges\n");
-
-				System.out.print("Electricity Charge: ");
-				bundle.setElectricityCharge(scanner.nextDouble());
-
-				System.out.print("Water Charge: ");
-				bundle.setWaterCharge(scanner.nextDouble());
-
-				System.out.print("Internet Charge: ");
-				bundle.setInternetCharge(scanner.nextDouble());
-
-				scanner.nextLine(); 
-			}
-
-
 			registry.addAccount(acc);
-
 			System.out.println("\nAccount registered successfully.\n");
 		}
     }
