@@ -69,7 +69,7 @@ public class UtilityConsoleApp {
 			type = scanner.nextInt();
 			scanner.nextLine();
 
-			if (type >= 1 && type <= 4) break; // was 1-3
+			if (type >= 1 && type <= 4) break; 
 
 			System.out.println("Invalid choice. Please select only 1, 2, or 3.\n"); //para di makapindot ng ibang number 
 		}
@@ -112,17 +112,39 @@ public class UtilityConsoleApp {
         else if (type == 3) acc = new InternetAccount(accNum, name);
 		else if (type == 4) acc = new BundledAccount(accNum, name);
 
-        if (acc != null) {
-            acc.setAddress(address);
-            acc.setHouseholdType(house);
-            acc.setPlanTier(plan);
-            acc.setActive(true);
-            acc.setPaymentStatus("Unpaid");
+		if (acc != null) {
 
-            registry.addAccount(acc);
+			acc.setAddress(address);
+			acc.setHouseholdType(house);
+			acc.setPlanTier(plan);
+			acc.setActive(true);
+			acc.setPaymentStatus("Unpaid");
 
-            System.out.println("\nAccount registered successfully.\n");
-        }
+
+			// yong sa bundle inputs
+			if (acc instanceof BundledAccount) {
+
+				BundledAccount bundle = (BundledAccount) acc;
+
+				System.out.println("\nEnter Bundle Service Charges\n");
+
+				System.out.print("Electricity Charge: ");
+				bundle.setElectricityCharge(scanner.nextDouble());
+
+				System.out.print("Water Charge: ");
+				bundle.setWaterCharge(scanner.nextDouble());
+
+				System.out.print("Internet Charge: ");
+				bundle.setInternetCharge(scanner.nextDouble());
+
+				scanner.nextLine(); 
+			}
+
+
+			registry.addAccount(acc);
+
+			System.out.println("\nAccount registered successfully.\n");
+		}
     }
 
     private void enterUsage() { //SA USER
