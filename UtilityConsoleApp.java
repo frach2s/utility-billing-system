@@ -63,14 +63,13 @@ public class UtilityConsoleApp {
 			System.out.println("1. Electricity");
 			System.out.println("2. Water");
 			System.out.println("3. Internet");
-			System.out.print("Enter choice (1-3): ");
+			System.out.println("4. Bundle");
+			System.out.print("Enter choice (1-4): ");
 
 			type = scanner.nextInt();
 			scanner.nextLine();
 
-			if (type >= 1 && type <= 3) {
-				break; 
-			}
+			if (type >= 1 && type <= 4) break; // was 1-3
 
 			System.out.println("Invalid choice. Please select only 1, 2, or 3.\n"); //para di makapindot ng ibang number 
 		}
@@ -111,6 +110,7 @@ public class UtilityConsoleApp {
         if (type == 1) acc = new ElectricityAccount(accNum, name);
         else if (type == 2) acc = new WaterAccount(accNum, name);
         else if (type == 3) acc = new InternetAccount(accNum, name);
+		else if (type == 4) acc = new BundledAccount(accNum, name);
 
         if (acc != null) {
             acc.setAddress(address);
@@ -132,12 +132,14 @@ public class UtilityConsoleApp {
         String accNum = scanner.next();
 
         SubscriptionAccount acc = registry.findAccount(accNum);
-
-        if (acc == null) {
+		
+		if (acc == null) {
             System.out.println("\nAccount not found.\n");
             return;
-        }
+         }
 
+
+ 
         System.out.print("Enter Usage: ");
         double usage = scanner.nextDouble();
 
@@ -181,34 +183,34 @@ public class UtilityConsoleApp {
         System.out.println();
     }
 
-    private void processPayment() { //PROCESSPAYMENT
-        System.out.println("\n--- Process Payment ---\n");
+   private void processPayment() { //fixed: dahil sa issue sa interface pinalitan ko na, so dun na sa parentclass ung math
+      System.out.println("\n--- Process Payment ---\n");
 
-        System.out.print("Enter Account Number: ");
-        String accNum = scanner.next();
+      System.out.print("Enter Account Number: ");
+      String accNum = scanner.next();
+      scanner.nextLine();
 
-        SubscriptionAccount acc = registry.findAccount(accNum);
+      SubscriptionAccount acc = registry.findAccount(accNum);
+      if (acc == null) {
+          System.out.println("\nAccount not found.\n");
+          return;
+      }
 
-        if (acc == null) {
-            System.out.println("\nAccount not found.\n");
-            return;
-        }
+      System.out.print("Enter Payment Amount: ");
+      double payment = scanner.nextDouble();
+      scanner.nextLine();
 
-        System.out.print("Enter Payment Amount: ");
-        double payment = scanner.nextDouble();
+      System.out.print("Add payment note? (y/n): ");
+      String hasNote = scanner.nextLine();
 
-        double balance = acc.getFinalBill() - payment;
-
-        acc.setFinalBill(balance);
-
-        if (balance <= 0) {
-            acc.updatePaymentStatus("Paid");
-            System.out.println("\nPayment complete.\n");
-        } else {
-            acc.updatePaymentStatus("Partial");
-            System.out.println("\nRemaining balance: " + balance + "\n");
-        }
-    }
+      if (hasNote.equalsIgnoreCase("y")) {
+          System.out.print("Enter note: ");
+          String note = scanner.nextLine();
+        acc.processPayment(payment, note); // overloaded version
+      } else {
+        acc.processPayment(payment); // simple version
+      }
+    } 
 
     private void requestPlanChange() { //REQUESTPLANCHANGE	
         System.out.println("\n--- Request Plan Change ---\n");
@@ -254,8 +256,15 @@ public class UtilityConsoleApp {
 
         System.out.print("Enter Account Number: ");
         String accNum = scanner.next();
+	
 
         SubscriptionAccount acc = registry.findAccount(accNum);
+		
+		if (acc == null) {
+            System.out.println("\nAccount not found.\n");
+            return;
+         }
+
 
         if (acc instanceof Reconnectable) {
             Reconnectable r = (Reconnectable) acc;
