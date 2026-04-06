@@ -51,34 +51,12 @@ public class UtilityConsoleApp {
         } while (choice != 12);
     }
 
-    private void registerAccount() {
-
-    System.out.println();
-    System.out.println("========================================");
-    System.out.println("           REGISTER ACCOUNT             ");
-    System.out.println("========================================");
-    System.out.println();
-
-    System.out.println("Choose Service Type:");
-    System.out.println("  1. Electricity");
-    System.out.println("  2. Water");
-    System.out.println("  3. Internet");
-    System.out.println("  4. Bundled Utility");
-    System.out.println("----------------------------------------");
-    System.out.print("Enter choice (1-4): ");
-
-    int type = scanner.nextInt();
-    scanner.nextLine();
-
-    System.out.println();
-    System.out.println("----------- ACCOUNT INFORMATION --------");
-
+    private void registerAccount() { //REGISTRATION
+        System.out.println("\n--- Register Account ---\n");
 		
-	String accNum;
+		System.out.println("Choose Service Type:");
 
-	while (true) {
-		System.out.print("Account Number (numbers only): ");
-		accNum = scanner.nextLine();
+		int type;
 
 		while (true) {
 
@@ -95,94 +73,17 @@ public class UtilityConsoleApp {
 
 			System.out.println("Invalid choice. Please select only 1, 2, or 3.\n"); //para di makapindot ng ibang number 
 		}
+        System.out.print("Account Number: ");
+        String accNum = scanner.nextLine();
 
-		System.out.println("Invalid input. Account number must contain numbers only.\n");
-	}
-
-	// pang check ng account para d maolit
-	if (registry.findAccount(accNum) != null) {
-		System.out.println("\nAccount already exists!");
-		return;
-	}
-
-
-	// pang letters lang sa pangalan haha
-	String name;
-
-	while (true) {
-		System.out.print("Customer Name (letters only): ");
-		name = scanner.nextLine();
-
-		if (name.matches("[a-zA-Z ]+")) {
-			break;
-		}
-
-		System.out.println("Invalid input. Name must contain letters only.\n");
-	}
-
-    System.out.print("Address         : ");
-    String address = scanner.nextLine();
-
-    System.out.print("Household Type  : ");
-    String house = scanner.nextLine();
-
-    System.out.println();
-    System.out.println("------------- PLAN SELECTION -----------");
-
-    System.out.println("1. Basic");
-    System.out.println("2. Standard");
-    System.out.println("3. Premium");
-    System.out.print("Enter choice: ");
-
-    int planChoice = scanner.nextInt();
-    scanner.nextLine();
-
-    String plan = "";
-    if(planChoice == 1) plan = "Basic";
-    else if(planChoice == 2) plan = "Standard";
-    else if(planChoice == 3) plan = "Premium";
-
-    SubscriptionAccount acc = null;
-
-    if(type == 1) acc = new ElectricityAccount(accNum, name);
-    else if(type == 2) acc = new WaterAccount(accNum, name);
-    else if(type == 3) acc = new InternetAccount(accNum, name);
-    else if(type == 4) acc = new BundledAccount(accNum, name);
-
-    if(acc != null){
-
-        acc.setAddress(address);
-        acc.setHouseholdType(house);
-        acc.setPlanTier(plan);
-        acc.setActive(true);
-        acc.setPaymentStatus("Unpaid");
-
-        if (acc instanceof BundledAccount) {
-
-            BundledAccount bundle = (BundledAccount) acc;
-
-            System.out.println();
-            System.out.println("----------- BUNDLE CHARGES -------------");
-
-            System.out.print("Electricity Charge : ");
-            bundle.setElectricityCharge(scanner.nextDouble());
-
-            System.out.print("Water Charge       : ");
-            bundle.setWaterCharge(scanner.nextDouble());
-
-            System.out.print("Internet Charge    : ");
-            bundle.setInternetCharge(scanner.nextDouble());
-
-            scanner.nextLine();
+        if (registry.findAccount(accNum) != null) {
+            System.out.println("\nAccount already exists!");
+            return;
         }
 
-        registry.addAccount(acc);
+        System.out.print("Customer Name: ");
+        String name = scanner.nextLine();
 
-        System.out.println();
-        System.out.println("========================================");
-        System.out.println("   Account registered successfully!    ");
-        System.out.println("========================================");
-        System.out.println();
         System.out.print("Address: ");
         String address = scanner.nextLine();
 
@@ -223,7 +124,6 @@ public class UtilityConsoleApp {
             System.out.println("\nAccount registered successfully.\n");
         }
     }
-}
 
     private void enterUsage() { //SA USER
         System.out.println("\n--- Enter Usage ---\n");
@@ -417,16 +317,9 @@ public class UtilityConsoleApp {
         System.out.println();
     }
 
-	   private void listAllAccounts() {
-
-		System.out.println();
-		System.out.println("========================================");
-		System.out.println("           LIST OF ALL ACCOUNTS         ");
-		System.out.println("========================================");
-
-		registry.listAllAccounts();
-
-		System.out.println("========================================");
-		System.out.println();
-	}
+    private void listAllAccounts() {
+        System.out.println("\n--- List of All Accounts ---\n");
+        registry.listAllAccounts();
+        System.out.println();
+    }
 }
