@@ -14,7 +14,7 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
     public ElectricityAccount(String accountNumber, String customerName,String address, String householdType,String planTier, double previousBalance,double currentUsage, double meterRate) {
         super(accountNumber, customerName, address, householdType,
               planTier, previousBalance, currentUsage);
-        this.meterRate = meterRate; // full constructor with the newly declared variable (meterRate)
+		this.meterRate = meterRate; // full constructor with the newly declared variable (meterRate)
     }
 
     // methods
