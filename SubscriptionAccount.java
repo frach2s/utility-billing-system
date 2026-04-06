@@ -13,10 +13,11 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 	private double lateFee;
 	private double discountAmount;
 	private double finalBill;
+	private double paidAmount; 
 	
 	public SubscriptionAccount(){
 		
-	}; //just incase if sa main method magc-create kayo ng empty object like new SubscriptionAccount ()----
+	}; //just incase if sa main method magc-create kayo ng empty object like new SubscriptionAccount ()--
 	
 	public SubscriptionAccount(String accountNumber, String customerName){
 		this.accountNumber = accountNumber;
@@ -90,6 +91,10 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 	
 	public double getFinalBill(){
 		return finalBill;
+	}
+
+	public double getPaidAmount(){ 
+		return paidAmount;
 	}
 	
 	// ========== SETTERS ==========
@@ -184,33 +189,33 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
     public abstract void printStatement();
     public abstract void printStatement(boolean shortMode);
   
-    @Override //fixed: nagkamali ako sa interface kaya nag e-error -xtian
+    @Override
     public void processPayment(double amount) {
-       this.finalBill -= amount;
-       if (this.finalBill <= 0) {
-         this.finalBill = 0;
-         this.paymentStatus = "Paid";
+        this.paidAmount += amount; /
+        if (this.paidAmount >= this.finalBill) {
+            this.paidAmount    = this.finalBill; /
+            this.paymentStatus = "Paid";
         } else {
-        this.paymentStatus = "Partial";
+            this.paymentStatus = "Partially Paid"; 
         }
         System.out.println("Payment of " + amount + " processed.");
     }
 
     @Override
     public void processPayment(double amount, String paymentNote) {
-    processPayment(amount);
-      this.serviceRequestNote = paymentNote;
-      System.out.println("Note: " + paymentNote);
+        processPayment(amount);
+        this.serviceRequestNote = paymentNote;
+        System.out.println("Note: " + paymentNote);
     }
 
     @Override
     public boolean validatePaymentStatus() {
-    return this.paymentStatus.equals("Paid");
+        return this.paymentStatus.equals("Paid");
     }
 
     @Override
     public double getOutstandingBalance() {
-    return this.finalBill;
+        return this.finalBill - this.paidAmount; 
     }
 
 }
