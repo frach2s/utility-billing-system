@@ -26,7 +26,7 @@ public class UtilityConsoleApp {
             System.out.println(" 6.  Request Plan Change");
             System.out.println(" 7.  Check Reconnection Eligibility");
             System.out.println(" 8.  Reconnect Service");
-            System.out.println(" 9.  Print Detailed Statement");
+            System.out.println(" 9.  Print Detailed Service Statement");
             System.out.println(" 10. Print Short Summary");
             System.out.println(" 11. List All Accounts");
             System.out.println(" 12. Exit");
@@ -463,7 +463,9 @@ public class UtilityConsoleApp {
 
     // =====================  PRINT SHORT SUMMARY =====================
     private void printShortSummary() {
-        System.out.println("--- Short Account Summary ---\n");
+		System.out.println(" ============================");
+        System.out.println(" ACCOUNT SUMMARY \n");
+		System.out.println(" ============================");
 
         System.out.print("Account Number: ");
         String accNum = scanner.next();

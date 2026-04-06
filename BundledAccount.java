@@ -31,7 +31,8 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 
     @Override
     public double computeMonthlyBill() {
-        
+    
+      
 
         // internet charge based on plan tier
         internetCharge = 999; // Basic default
@@ -85,6 +86,7 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 
     @Override
     public boolean canReconnect() {
+        
         return !isActive() && getOutstandingBalance() <= 0;
     }
 
@@ -105,7 +107,7 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
     public String getReconnectionMessage() {
         if (isActive()) return "Service is currently active.";
         if (canReconnect()) return "Eligible for reconnection.";
-       
+        
         return "Not eligible. Outstanding balance: " + String.format("%.2f", getOutstandingBalance());
     }
 
@@ -136,10 +138,11 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 
         setPlanTier(newPlan);
         setServiceRequestNote("Plan change requested: " + oldPlan + " to " + newPlan);
-        setFinalBill(0);
+        setFinalBill(0); // reset bill so it recomputes on next billing cycle
         System.out.println("Plan successfully changed to: " + newPlan);
     }
 
+    // requestPlanChange —
     public void requestPlanChange(String newPlan, String effectiveCycle) {
         if (getPlanTier() != null && getPlanTier().equalsIgnoreCase(newPlan)) {
             System.out.println("Current plan is already " + newPlan + ". No changes made.");
@@ -169,6 +172,7 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
         System.out.println("Plan successfully changed to: " + newPlan);
     }
 
+    // printStatement
     @Override
     public void printStatement() {
         System.out.println(printStatementTitle());
@@ -180,9 +184,9 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
     @Override
     public void printStatement(boolean shortMode) {
         if (shortMode) {
-            System.out.println("----------------------------------------");
+            System.out.println("=========================================");
             System.out.println("         ACCOUNT SUMMARY                ");
-            System.out.println("----------------------------------------");
+            System.out.println("=========================================");
             System.out.println("Account No.    : " + getAccountNumber());
             System.out.println("Customer Name  : " + getCustomerName());
             System.out.println("Service Type   : " + getServiceType());
