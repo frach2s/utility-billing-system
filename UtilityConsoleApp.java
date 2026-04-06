@@ -463,7 +463,9 @@ public class UtilityConsoleApp {
 
     // =====================  PRINT SHORT SUMMARY =====================
     private void printShortSummary() {
-        System.out.println("--- Short Account Summary ---\n");
+		System.out.println(" ============================");
+        System.out.println(" ACCOUNT SUMMARY \n");
+		System.out.println(" ============================");
 
         System.out.print("Account Number: ");
         String accNum = scanner.next();

@@ -17,7 +17,7 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 	
 	public SubscriptionAccount(){
 		
-	}; //just incase if sa main method magc-create kayo ng empty object like new SubscriptionAccount ()--
+	}; //just incase if sa main method magc-create kayo ng empty object like new SubscriptionAccount ()----
 	
 	public SubscriptionAccount(String accountNumber, String customerName){
 		this.accountNumber = accountNumber;
@@ -191,9 +191,9 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
   
     @Override
     public void processPayment(double amount) {
-        this.paidAmount += amount; /
+        this.paidAmount += amount; 
         if (this.paidAmount >= this.finalBill) {
-            this.paidAmount    = this.finalBill; /
+            this.paidAmount    = this.finalBill; 
             this.paymentStatus = "Paid";
         } else {
             this.paymentStatus = "Partially Paid"; 
