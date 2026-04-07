@@ -175,7 +175,7 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
 			System.out.println("Customer Name  : " + getCustomerName());
 			System.out.println("Service Type   : " + getServiceType());
 			System.out.println("Plan Tier      : " + getHouseholdType() + " " + getPlanTier());
-			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
+			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()- getPaidAmount()));
 			System.out.println("Payment Status : " + getPaymentStatus());
 			System.out.println("Service Status : " + (isActive() ? "Active" : "For Monitoring"));
 			System.out.println("----------------------------------------");
