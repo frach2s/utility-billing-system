@@ -47,24 +47,20 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
     }
 
     @Override
-    public String getBillingBreakdown() {
+	public String getBillingBreakdown() {
 
-        double basePlan = 0;
+		double usageCharge = getCurrentUsage() * meterRate;
 
-        String plan = getPlanTier();
-
-        if (plan.equalsIgnoreCase("Basic")) basePlan = 999;
-        else if (plan.equalsIgnoreCase("Standard")) basePlan = 1499;
-        else if (plan.equalsIgnoreCase("Premium")) basePlan = 1999;
-
-        return "Plan: " + plan +
-                "\nBase Plan Fee: " + basePlan +
-                "\nModem Fee: " + modemFee +
-                "\nReconnection Charge: " + reconnectionCharge +
-                "\nPrevious Balance: " + getPreviousBalance() +
-                "\n----------------------" +
-                "\nTotal Bill: " + getFinalBill();
-    }
+		return "Usage Charge       : " + String.format("%.2f", usageCharge) +
+			   "\nGeneration Charge  : " + String.format("%.2f", generationCharge) +
+			   "\nService Fee        : " + String.format("%.2f", serviceAvailabilityFee) +
+			   "\nPrevious Balance   : " + String.format("%.2f", getPreviousBalance()) +
+			   "\nLate Fee           : " + String.format("%.2f", getLateFee()) +
+			   "\n----------------------" +
+			   "\nTotal Bill         : " + String.format("%.2f", getFinalBill()) +
+			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
+			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
+	}
 	
 	// reconnectable
     @Override

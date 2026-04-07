@@ -151,6 +151,11 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 		this.finalBill = finalBill;
 	}
 	
+	
+	
+	public void setPaidAmount (double paidAmount){
+		this.paidAmount = paidAmount;
+	}
 	//ADDITONAL METHODS FOR UPDATING DATA
 	public void updateUsage(double newUsage){
 		this.currentUsage = newUsage;

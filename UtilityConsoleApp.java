@@ -453,7 +453,7 @@ public class UtilityConsoleApp {
 		return;
 		}
 
-		acc.computeMonthlyBill(); 
+		
 
 		if (acc instanceof PrintableStatement) {
 			PrintableStatement p = (PrintableStatement) acc;
@@ -479,7 +479,7 @@ public class UtilityConsoleApp {
         return;
 		}
 
-		acc.computeMonthlyBill();
+	
 
 		if (acc instanceof PrintableStatement) {
 			PrintableStatement p = (PrintableStatement) acc;

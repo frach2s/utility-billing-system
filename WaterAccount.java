@@ -39,16 +39,20 @@ public class WaterAccount extends SubscriptionAccount implements Reconnectable {
     }
 
     @Override
-    public String getBillingBreakdown() {
+	public String getBillingBreakdown() {
 
-        double usageCharge = getCurrentUsage() * waterRatePerUnit;
+		double usageCharge = getCurrentUsage() * meterRate;
 
-        return "Usage Charge: " + usageCharge +
-               "\nEnvironmental Fee	: " + environmentalFee +
-               "\nPrevious Balance: " + getPreviousBalance() +
-               "\n----------------------" +
-               "\nTotal Bill: " + getFinalBill(); // display of values only!!
-    }
+		return "Usage Charge       : " + String.format("%.2f", usageCharge) +
+			   "\nGeneration Charge  : " + String.format("%.2f", generationCharge) +
+			   "\nService Fee        : " + String.format("%.2f", serviceAvailabilityFee) +
+			   "\nPrevious Balance   : " + String.format("%.2f", getPreviousBalance()) +
+			   "\nLate Fee           : " + String.format("%.2f", getLateFee()) +
+			   "\n----------------------" +
+			   "\nTotal Bill         : " + String.format("%.2f", getFinalBill()) +
+			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
+			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
+	}
 	
 	// reconnectable
     @Override
