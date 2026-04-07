@@ -62,8 +62,7 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
                 "\nModem Fee: " + modemFee +
                 "\nReconnection Charge: " + reconnectionCharge +
                 "\nPrevious Balance: " + getPreviousBalance() +
-               "\n---------------------------------------------" ;
-			   
+               "\n---------------------------------------------" ;		   
     }
 	
 	// reconnectable

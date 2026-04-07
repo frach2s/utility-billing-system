@@ -64,20 +64,17 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
         double subtotal = electricityCharge + waterCharge + basePlan;
         double discount = subtotal * bundleDiscountRate;
 
-        return "========= BUNDLE BREAKDOWN =========\n" +
+        return "============== BUNDLE BREAKDOWN ==============\n" +
                "Electricity Charge : " + String.format("%.2f", electricityCharge) + "\n" +
                "Water Charge       : " + String.format("%.2f", waterCharge) + "\n" +
                "Internet Charge    : " + String.format("%.2f", basePlan) + "\n" +
-               "----------------------\n" +
+               "\n---------------------------------------------" +
                "Subtotal           : " + String.format("%.2f", subtotal) + "\n" +
                "Bundle Discount    : -" + String.format("%.2f", discount) + "\n" +
                "Previous Balance   : " + String.format("%.2f", getPreviousBalance()) + "\n" +
                "Late Fee           : " + String.format("%.2f", getLateFee()) + "\n" +
-               "----------------------\n" +
-               "Total Bill         : " + String.format("%.2f", getFinalBill()) + "\n" +
-               "Paid Amount        : " + String.format("%.2f", getPaidAmount()) + "\n" +
-               "Remaining Balance  : " + String.format("%.2f", getOutstandingBalance());
-    }
+               "\n---------------------------------------------" ;
+	}
 
     // ===================== FROM RECONNECTABLE (INTERFACE) =====================
 
@@ -185,7 +182,7 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 			System.out.println("Customer Name  : " + getCustomerName());
 			System.out.println("Service Type   : " + getServiceType());
 			System.out.println("Plan Tier      : " + getHouseholdType() + " " + getPlanTier());
-			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
+			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill() - getPaidAmount()));
 			System.out.println("Payment Status : " + getPaymentStatus());
 			System.out.println("Service Status : " + (isActive() ? "Active" : "For Monitoring"));
 			System.out.println("----------------------------------------");
@@ -208,7 +205,9 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 
     @Override
     public String getStatementFooter() {
-        return "Remaining Balance: " + String.format("%.2f", getOutstandingBalance());
+        return "Total Bill         : " + String.format("%.2f", getFinalBill()) + "\n" +
+               "Paid Amount        : " + String.format("%.2f", getPaidAmount()) + "\n" +
+               "Remaining Balance  : " + String.format("%.2f", getOutstandingBalance());
     }
 
     // ===================== EXTRA GETTERS AND SETTERS =====================
