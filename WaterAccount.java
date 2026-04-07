@@ -46,10 +46,7 @@ public class WaterAccount extends SubscriptionAccount implements Reconnectable {
         return "Usage Charge: " + usageCharge +
                "\nEnvironmental Fee	: " + environmentalFee +
                "\nPrevious Balance: " + getPreviousBalance() +
-               "\n----------------------" +
-			   "\nTotal Bill         : " + String.format("%.2f", getFinalBill()) +
-			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
-			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
+			   "\n---------------------------------------------" ;
     }
 	
 	// reconnectable
@@ -139,9 +136,11 @@ public class WaterAccount extends SubscriptionAccount implements Reconnectable {
         return getBillingBreakdown();
     }
 
-    @Override
+   @Override
 	public String getStatementFooter() {
-		return "Total: " + getFinalBill();
+		return "Total Bill         : " + String.format("%.2f", getFinalBill()) +
+			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
+			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
 	}
 
     @Override

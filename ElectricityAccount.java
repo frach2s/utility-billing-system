@@ -47,10 +47,7 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
 			   "\nService Fee        : " + String.format("%.2f", serviceAvailabilityFee) +
 			   "\nPrevious Balance   : " + String.format("%.2f", getPreviousBalance()) +
 			   "\nLate Fee           : " + String.format("%.2f", getLateFee()) +
-			   "\n----------------------" +
-			   "\nTotal Bill         : " + String.format("%.2f", getFinalBill()) +
-			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
-			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
+			   "\n---------------------------------------------" ;
 	}
 
     // reconnectable
@@ -143,7 +140,9 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
 
     @Override
 	public String getStatementFooter() {
-		return "Total: " + getFinalBill();
+		return "Total Bill         : " + String.format("%.2f", getFinalBill()) +
+			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
+			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
 	}
 
     @Override

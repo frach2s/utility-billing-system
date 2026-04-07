@@ -62,10 +62,8 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
                 "\nModem Fee: " + modemFee +
                 "\nReconnection Charge: " + reconnectionCharge +
                 "\nPrevious Balance: " + getPreviousBalance() +
-               "\n----------------------" +
-			   "\nTotal Bill         : " + String.format("%.2f", getFinalBill()) +
-			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
-			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
+               "\n---------------------------------------------" ;
+			   
     }
 	
 	// reconnectable
@@ -158,7 +156,9 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
 
     @Override
 	public String getStatementFooter() {
-		return "Total: " + getFinalBill();
+		return "Total Bill         : " + String.format("%.2f", getFinalBill()) +
+			   "\nPaid Amount        : " + String.format("%.2f", getPaidAmount()) +
+			   "\nRemaining Balance  : " + String.format("%.2f", getFinalBill() - getPaidAmount());
 	}
 
     @Override
