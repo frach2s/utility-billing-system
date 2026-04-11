@@ -56,7 +56,7 @@ public class UtilityConsoleApp {
 
     // ===================== REGISTER ACCOUNT =====================
     private void registerAccount() {
-        System.out.println("--- Register Account ---\n");
+        System.out.println("--------------- Register Account ---------------\n");
 
         // --- service type selection with validation loop ---
         int type;
@@ -66,6 +66,7 @@ public class UtilityConsoleApp {
             System.out.println("  2. Water");
             System.out.println("  3. Internet");
             System.out.println("  4. Bundle (Electricity + Water + Internet)");
+			System.out.println("\n------------------------------------------------");
             System.out.print("Enter choice (1-4): ");
             type = scanner.nextInt();
             scanner.nextLine();
@@ -74,7 +75,9 @@ public class UtilityConsoleApp {
         }
 
         // --- basic account info ---
-        System.out.print("\nAccount Number    : ");
+		
+		System.out.println("\n------------------------------------------------");
+        System.out.print("\nAccount Number        : ");
         String accNum = scanner.nextLine();
 
         if (registry.findAccount(accNum) != null) {
@@ -82,16 +85,16 @@ public class UtilityConsoleApp {
             return;
         }
 
-        System.out.print("Customer Name     : ");
+		System.out.print("Customer Name         : ");
         String name = scanner.nextLine();
 
-        System.out.print("Address           : ");
+		System.out.print("Address               : ");
         String address = scanner.nextLine();
 
-        System.out.print("Household Type    : ");
+		System.out.print("Household Type        : ");
         String house = scanner.nextLine();
 
-        System.out.print("Previous Balance  : ");
+		System.out.print("Previous Balance      : ");
         double prevBal = scanner.nextDouble();
         scanner.nextLine();
 
@@ -115,10 +118,12 @@ public class UtilityConsoleApp {
         // For Electricity and Water this represents the service level
         String plan = "";
         while (true) {
+			System.out.println("\n------------------------------------------------");
             System.out.println("\nChoose Plan Tier:");
             System.out.println("  1. Basic");
             System.out.println("  2. Standard");
             System.out.println("  3. Premium");
+			System.out.println("\n------------------------------------------------");
             System.out.print("Enter choice (1-3): ");
             int planChoice = scanner.nextInt();
             scanner.nextLine();
@@ -168,9 +173,9 @@ public class UtilityConsoleApp {
 
     // =====================  ENTER / UPDATE USAGE =====================
     private void enterUsage() {
-        System.out.println("--- Enter / Update Usage ---\n");
+        System.out.println("------------- Enter / Update Usage -------------\n");
 
-        System.out.print("Account Number: ");
+        System.out.print("Account Number   : ");
         String accNum = scanner.next();
         scanner.nextLine();
 
@@ -196,7 +201,7 @@ public class UtilityConsoleApp {
             bundled.setWaterCharge(waterUsage * 8);        // 8.00 per unit
 
             System.out.println("\n------------------------------------------------");
-            System.out.println("Usage updated successfully.");
+            System.out.println("Usage updated successfully.\n");
             System.out.println("  Electricity : " + elecUsage + " kWh   = Charge: " + String.format("%.2f", elecUsage * 10));
             System.out.println("  Water       : " + waterUsage + " units = Charge: " + String.format("%.2f", waterUsage * 8));
             System.out.println("  Internet    : Flat rate (based on plan tier)");
@@ -217,7 +222,7 @@ public class UtilityConsoleApp {
             acc.updateUsage(usage); // parent method
 
             System.out.println("\n------------------------------------------------");
-            System.out.println("Usage updated to " + usage + " " + unit + ".");
+            System.out.println("Usage updated to " + usage + " " + unit + ".\n");
             System.out.println("Account No. : " + acc.getAccountNumber());
             System.out.println("Customer    : " + acc.getCustomerName());
             System.out.println("------------------------------------------------\n");
@@ -226,11 +231,12 @@ public class UtilityConsoleApp {
 
     // =====================  COMPUTE MONTHLY BILL =====================
     private void computeBill() {
-        System.out.println("--- Compute Monthly Bill ---\n");
+        System.out.println("------------- Compute Monthly Bill -------------\n");
 
         System.out.print("Account Number: ");
         String accNum = scanner.next();
         scanner.nextLine();
+		System.out.println("\n------------------------------------------------");
 
         SubscriptionAccount acc = registry.findAccount(accNum);
         if (acc == null) {
@@ -254,17 +260,18 @@ public class UtilityConsoleApp {
         System.out.println(acc.getBillingBreakdown());
         System.out.println("------------------------------------------------");
         System.out.println("Payment Status : " + acc.getPaymentStatus());
-        System.out.println("Service Status : " + (acc.isActive() ? "Active" : "Inactive"));
+		System.out.println("Service Status : " + acc.getServiceStatus());
         System.out.println("================================================\n");
     }
 
     // =====================  APPLY LATE PENALTY =====================
     private void applyLatePenalty() {
-        System.out.println("--- Apply Late Penalty ---\n");
+        System.out.println("-------------- Apply Late Penalty --------------\n");
 
-        System.out.print("Account Number: ");
+        System.out.print("Account Number    : ");
         String accNum = scanner.next();
         scanner.nextLine();
+		System.out.println("\n------------------------------------------------\n");
 
         SubscriptionAccount acc = registry.findAccount(accNum);
         if (acc == null) {
@@ -285,16 +292,18 @@ public class UtilityConsoleApp {
         }
 
         acc.applySharedPenaltyRule(); // parent method — 5% late fee if status is Unpaid
+		System.out.println("\n------------------------------------------------");
         System.out.println();
     }
 
     // ===================== PROCESS PAYMENT =====================
     private void processPayment() {
-        System.out.println("--- Process Payment ---\n");
+        System.out.println("---------------- Process Payment ---------------\n");
 
-        System.out.print("Account Number: ");
+        System.out.print("Account Number    : ");
         String accNum = scanner.next();
         scanner.nextLine();
+		System.out.println("\n------------------------------------------------\n");
 
         SubscriptionAccount acc = registry.findAccount(accNum);
         if (acc == null) {
@@ -307,26 +316,29 @@ public class UtilityConsoleApp {
         double payment = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.print("Add a payment note? (y/n)   : ");
-        String hasNote = scanner.nextLine();
-
+			System.out.print("Add a payment note? (y/n)   : ");
+			String hasNote = scanner.nextLine();
+			System.out.println("\n------------------------------------------------\n");
+			
         if (hasNote.equalsIgnoreCase("y")) {
-            System.out.print("Enter note: ");
+            System.out.print("Enter note                  : ");
+			System.out.println("\n------------------------------------------------\n");
             String note = scanner.nextLine();
             acc.processPayment(payment, note); // overloaded — amount + note
+			System.out.println("\n------------------------------------------------\n");
         } else {
             acc.processPayment(payment); // simple — amount only
+			System.out.println("\n------------------------------------------------\n");
         }
 
         // payment confirmation output 
-        System.out.println("\n================================================");
+        System.out.println("================================================");
         System.out.println("             PAYMENT CONFIRMATION");
         System.out.println("================================================");
         System.out.println("Account No.        : " + acc.getAccountNumber());
         System.out.println("Customer Name      : " + acc.getCustomerName());
         System.out.println("Service Type       : " + acc.getServiceType());
         System.out.println("Amount Paid        : " + String.format("%.2f", payment));
-        System.out.println("Total Paid So Far  : " + String.format("%.2f", acc.getPaidAmount()));
         System.out.println("Remaining Balance  : " + String.format("%.2f", acc.getOutstandingBalance()));
         System.out.println("Payment Status     : " + acc.getPaymentStatus());
         System.out.println("Service Status     : " + (acc.isActive() ? "Active" : "Inactive"));
@@ -335,24 +347,26 @@ public class UtilityConsoleApp {
 
     // =====================  REQUEST PLAN CHANGE =====================
     private void requestPlanChange() {
-        System.out.println("--- Request Plan Change ---\n");
+        System.out.println("-------------- Request Plan Change -------------\n");
 
-        System.out.print("Account Number: ");
+        System.out.print("Account Number   : ");
         String accNum = scanner.next();
         scanner.nextLine();
-
+		System.out.println("\n------------------------------------------------\n");
+		
         SubscriptionAccount acc = registry.findAccount(accNum);
         if (acc == null) {
             System.out.println("\nAccount not found.\n");
             return;
         }
-
-        System.out.println("Current Plan : " + acc.getPlanTier());
-        System.out.println("\nChoose New Plan:");
+		
+        System.out.println("Current Plan     : " + acc.getPlanTier());
+        System.out.println("\nChoose New Plan  :");
         System.out.println("  1. Basic");
         System.out.println("  2. Standard");
         System.out.println("  3. Premium");
-        System.out.print("Enter choice (1-3): ");
+		System.out.println("\n----------------------------------------------");
+        System.out.print("Enter choice (1-3) : ");
         int planChoice = scanner.nextInt();
         scanner.nextLine();
 
@@ -366,13 +380,16 @@ public class UtilityConsoleApp {
                 return;
         }
 
-      
+        System.out.println("\n----------------------------------------------\n");
         System.out.print("Set an effective cycle date? (y/n): ");
         String hasCycle = scanner.nextLine();
+		System.out.println("\n----------------------------------------------\n");
+		
 
         if (hasCycle.equalsIgnoreCase("y")) {
-            System.out.print("Enter effective cycle (e.g. June 2025): ");
+            System.out.print("Enter effective cycle (e.g. June 2025): ");	
             String cycle = scanner.nextLine();
+			System.out.println("\n----------------------------------------------\n");
 
            
             if      (acc instanceof ElectricityAccount) ((ElectricityAccount) acc).requestPlanChange(newPlan, cycle);
@@ -393,11 +410,12 @@ public class UtilityConsoleApp {
 
     // =====================  CHECK RECONNECTION ELIGIBILITY =====================
     private void checkReconnection() {
-        System.out.println("--- Check Reconnection Eligibility ---\n");
+        System.out.println("-------- Check Reconnection Eligibility --------\n");
 
-        System.out.print("Account Number: ");
+        System.out.print("Account Number    : ");
         String accNum = scanner.next();
         scanner.nextLine();
+		System.out.println("\n------------------------------------------------");
 
         SubscriptionAccount acc = registry.findAccount(accNum);
         if (acc == null) {
@@ -408,7 +426,7 @@ public class UtilityConsoleApp {
         // all four subclasses implement Reconnectable
         if (acc instanceof Reconnectable) {
             Reconnectable r = (Reconnectable) acc;
-            System.out.println("\n------------------------------------------------");
+            System.out.println("\n------------- Account Eligibility --------------");
             System.out.println("Account No.  : " + acc.getAccountNumber());
             System.out.println("Customer     : " + acc.getCustomerName());
             System.out.println("Service Type : " + acc.getServiceType());
@@ -420,11 +438,12 @@ public class UtilityConsoleApp {
 
     // =====================  RECONNECT SERVICE =====================
     private void reconnectService() {
-        System.out.println("--- Reconnect Service ---\n");
+        System.out.println("--------------- Reconnect Service --------------\n");
 
         System.out.print("Account Number: ");
         String accNum = scanner.next();
         scanner.nextLine();
+		System.out.println("\n------------------------------------------------\n");
 
         SubscriptionAccount acc = registry.findAccount(accNum);
         if (acc == null) {
@@ -435,17 +454,19 @@ public class UtilityConsoleApp {
         if (acc instanceof Reconnectable) {
             Reconnectable r = (Reconnectable) acc;
             r.reconnectService(); // each subclass checks canReconnect() internally
+			System.out.println("\n------------------------------------------------");
             System.out.println();
         }
     }
 
     // =====================  PRINT DETAILED STATEMENT =====================
     private void printDetailedStatement() {
-		System.out.println("--- Detailed Statement ---\n");
+		System.out.println("-------------- Detailed Statement --------------\n");
 
-		System.out.print("Account Number: ");
+		System.out.print("Account Number    : ");
 		String accNum = scanner.next();
 		scanner.nextLine();
+		System.out.println("\n------------------------------------------------\n");
 	
 		SubscriptionAccount acc = registry.findAccount(accNum);
 		if (acc == null) {
@@ -465,13 +486,12 @@ public class UtilityConsoleApp {
 
     // =====================  PRINT SHORT SUMMARY =====================
     private void printShortSummary() {
-		System.out.println("----------------------------------------");
-		System.out.println("ACCOUNT SUMMARY");
-		System.out.println("----------------------------------------");
+		System.out.println("---------------- Account Summary ---------------\n");
 	
-		System.out.print("Account Number: ");
+		System.out.print("Account Number : ");
 		String accNum = scanner.next();
 		scanner.nextLine();
+		System.out.println("\n------------------------------------------------\n");
 
 		SubscriptionAccount acc = registry.findAccount(accNum);
 		if (acc == null) {
@@ -482,6 +502,7 @@ public class UtilityConsoleApp {
 		acc.computeMonthlyBill();
 
 		if (acc instanceof PrintableStatement) {
+			System.out.println("================ ACCOUNT SUMMARY ===============");
 			PrintableStatement p = (PrintableStatement) acc;
 			p.printStatement(true);
 		}
@@ -491,8 +512,9 @@ public class UtilityConsoleApp {
 
     // =====================  LIST ALL ACCOUNTS =====================
     private void listAllAccounts() {
-        System.out.println("--- List of All Registered Accounts ---\n");
+        System.out.println("-------- List of All Registered Accounts -------\n");
         registry.listAllAccounts(); 
-        System.out.println();
+		System.out.println("\n------------------------------------------------");
+        System.out.println();		
     }
 }

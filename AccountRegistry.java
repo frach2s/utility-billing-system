@@ -41,14 +41,13 @@ public class AccountRegistry { //YONG MGA PRIVATE FIELDS
 
 	while (current != null) {
 
-		System.out.println("----------------------------------------");
+		System.out.println("------------------------------------------------");
 		System.out.println("Account #" + count);
-		System.out.println("----------------------------------------");
+		System.out.println("------------------------------------------------");
 
 		System.out.println(current.getAccount());
 
-		System.out.println("----------------------------------------");
-		System.out.println(); 
+		System.out.println("------------------------------------------------");
 
 		current = current.getNext();
 		count++;

@@ -42,18 +42,28 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
 
         double usageCharge = getCurrentUsage() * meterRate;
 
-        return "Usage Charge: " + usageCharge +
+        return "Usage Charge     : " + usageCharge +
                "\nGeneration Charge: " + generationCharge +
-               "\nService Fee: " + serviceAvailabilityFee +
-               "\nPrevious Balance: " + getPreviousBalance() +
-               "\n----------------------" +
-               "\nTotal Bill: " + getFinalBill(); // display of values only
+               "\nService Fee      : " + serviceAvailabilityFee +
+               "\nPrevious Balance : " + getPreviousBalance() +
+               "\n----------------------------------------------" +
+               "\nTotal Bill       : " + getFinalBill(); // display of values only
     }
-
-    // reconnectable
+	
+	@Override
+	public String getServiceStatus() {
+		if (getPreviousBalance() >= 12000) {
+			return "Inactive";
+		} else if (isActive()) {
+			return "Active";
+		} else {
+			return "For Monitoring";
+		}
+	}
+	
     @Override
     public boolean canReconnect() {
-        return !isActive(); // can only apply for reconnection if the account is inactive
+        return !isActive() && getPreviousBalance() < 12000;
     }
 
     @Override
@@ -62,14 +72,25 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
             setActive(true);
             System.out.println("Service reconnected.");
         } else {
-            System.out.println("Service is already active.");
+            if (isActive()) {
+                System.out.println("Service is already active.");
+            } else {
+                System.out.println("Reconnection not allowed due to unpaid balance.");
+            }
         }
     }
 
     @Override
     public String getReconnectionMessage() {
-        return isActive() ? "Service is active." : "Service is eligible for reconnection."; // status
-    }
+        if (isActive()) {
+            return "Service is active.";
+        }
+        if (canReconnect()) {
+			return "Service is eligible for reconnection.";
+		} else {
+			return "Service inactive. Please settle your outstanding balance first.";
+		}
+	}
 	
 	//=======================================================//
 	// overloaded methods
@@ -101,7 +122,7 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
     System.out.println("Plan successfully changed to: " + newPlan);
 	}
 	
-	//verload
+	//overload
 	public void requestPlanChange(String newPlan, String effectiveCycle) {
 		if (getPlanTier().equalsIgnoreCase(newPlan)) {
         System.out.println("Current plan is already " + newPlan + ". No changes made.");
@@ -130,7 +151,7 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
 	
 	@Override
     public String printStatementTitle() {
-        return "========= ELECTRICITY BILL =========";
+        return "--------------- ELECTRICITY BILL ---------------";
     }
 
     @Override
@@ -140,7 +161,8 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
 
     @Override
 	public String getStatementFooter() {
-		return "Total: " + getFinalBill();
+		return "Total            : " + getFinalBill() +
+			   "\n------------------------------------------------";
 	}
 
     @Override
@@ -159,8 +181,8 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
         System.out.println("Plan Tier      : " + getHouseholdType() + " " + getPlanTier());
 			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
 			System.out.println("Payment Status : " + getPaymentStatus());
-			System.out.println("Service Status : " + (isActive() ? "Active" : "For Monitoring"));
-			System.out.println("----------------------------------------");
+			System.out.println("Service Status : " + getServiceStatus());
+			System.out.println("------------------------------------------------");
 		} else {
 			printStatement();
 		}

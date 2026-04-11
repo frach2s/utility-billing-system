@@ -14,6 +14,7 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 	private double discountAmount;
 	private double finalBill;
 	private double paidAmount; 
+	private String serviceStatus; // new field for setting up the service status
 	
 	public SubscriptionAccount(){
 		
@@ -95,6 +96,10 @@ public abstract class SubscriptionAccount implements PrintableStatement, Payment
 
 	public double getPaidAmount(){ 
 		return paidAmount;
+	}
+	
+	public String getServiceStatus(){
+		return serviceStatus;
 	}
 	
 	// ========== SETTERS ==========

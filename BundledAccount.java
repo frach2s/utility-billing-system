@@ -64,19 +64,20 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
         double subtotal = electricityCharge + waterCharge + basePlan;
         double discount = subtotal * bundleDiscountRate;
 
-        return "========= BUNDLE BREAKDOWN =========\n" +
+        return "=============== BUNDLE BREAKDOWN ===============\n" +
                "Electricity Charge : " + String.format("%.2f", electricityCharge) + "\n" +
                "Water Charge       : " + String.format("%.2f", waterCharge) + "\n" +
                "Internet Charge    : " + String.format("%.2f", basePlan) + "\n" +
-               "----------------------\n" +
+               "------------------------------------------------\n" +
                "Subtotal           : " + String.format("%.2f", subtotal) + "\n" +
                "Bundle Discount    : -" + String.format("%.2f", discount) + "\n" +
                "Previous Balance   : " + String.format("%.2f", getPreviousBalance()) + "\n" +
                "Late Fee           : " + String.format("%.2f", getLateFee()) + "\n" +
-               "----------------------\n" +
+               "------------------------------------------------\n" +
                "Total Bill         : " + String.format("%.2f", getFinalBill()) + "\n" +
                "Paid Amount        : " + String.format("%.2f", getPaidAmount()) + "\n" +
-               "Remaining Balance  : " + String.format("%.2f", getOutstandingBalance());
+               "Remaining Balance  : " + String.format("%.2f", getOutstandingBalance()) +
+			   "================================================\n";
     }
 
     // ===================== FROM RECONNECTABLE (INTERFACE) =====================
@@ -188,7 +189,7 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
 			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
 			System.out.println("Payment Status : " + getPaymentStatus());
 			System.out.println("Service Status : " + (isActive() ? "Active" : "For Monitoring"));
-			System.out.println("----------------------------------------");
+			System.out.println("------------------------------------------------");
 		} else {
 			printStatement();
 		}
@@ -197,8 +198,9 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
     // ===================== FROM PRINTABLESTATEMENT (INTERFACE) =====================
 
     @Override
-    public String printStatementTitle() {
-        return "========= BUNDLED UTILITY BILL =========";
+    public String printStatementTitle() {  
+		return "-------------- BUNDLED UTILITY BILL --------------" +
+			   "\n";
     }
 
     @Override

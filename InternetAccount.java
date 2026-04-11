@@ -35,7 +35,7 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
         double total = basePlan
                 + modemFee
                 + reconnectionCharge
-                + getPreviousBalance();
+                + getPreviousBalance(); // returning multiple fields as bill is composed of all of the following (for ex. getPreviousBalance value adds up if it is unpaid)
 
         setFinalBill(total);
         return total;
@@ -57,21 +57,30 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
         else if (plan.equalsIgnoreCase("Standard")) basePlan = 1499;
         else if (plan.equalsIgnoreCase("Premium")) basePlan = 1999;
 
-        return "Plan: " + plan +
-                "\nBase Plan Fee: " + basePlan +
-                "\nModem Fee: " + modemFee +
+        return "Plan                : " + plan +
+                "\nBase Plan Fee      : " + basePlan +
+                "\nModem Fee          : " + modemFee +
                 "\nReconnection Charge: " + reconnectionCharge +
-                "\nPrevious Balance: " + getPreviousBalance() +
-                "\n----------------------" +
-                "\nTotal Bill: " + getFinalBill();
+                "\nPrevious Balance   : " + getPreviousBalance() +
+                "\n----------------------------------------------" +
+                "\nTotal Bill         : " + getFinalBill();
     }
 	
-	// reconnectable
-    @Override
+	@Override
+	public String getServiceStatus() {
+		if (getPreviousBalance() >= 12000) {
+			return "Inactive";
+		} else if (isActive()) {
+			return "Active";
+		} else {
+			return "For Monitoring";
+		}
+	}
+	
+	@Override
     public boolean canReconnect() {
-        return !isActive(); // can only apply for reconnection if the account is inactive
+        return !isActive() && getPreviousBalance() < 12000;
     }
-
 
     @Override
     public void reconnectService() {
@@ -79,14 +88,25 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
             setActive(true);
             System.out.println("Service reconnected.");
         } else {
-            System.out.println("Service is already active.");
+            if (isActive()) {
+                System.out.println("Service is already active.");
+            } else {
+                System.out.println("Reconnection not allowed due to unpaid balance.");
+            }
         }
     }
 
     @Override
     public String getReconnectionMessage() {
-        return isActive() ? "Service is active." : "Service is eligible for reconnection."; // status
-    }
+        if (isActive()) {
+            return "Service is active.";
+        }
+        if (canReconnect()) {
+			return "Service is eligible for reconnection.";
+		} else {
+			return "Service inactive. Please settle your outstanding balance first.";
+		}
+	}
 	
 	//=======================================================//
 	// overloaded methods
@@ -117,7 +137,7 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
     System.out.println("Plan successfully changed to: " + newPlan);
 	}
 	
-	//verload
+	//overload
 	public void requestPlanChange(String newPlan, String effectiveCycle) {
 		if (getPlanTier().equalsIgnoreCase(newPlan)) {
         System.out.println("Current plan is already " + newPlan + ". No changes made.");
@@ -146,7 +166,7 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
 	
 	@Override
     public String printStatementTitle() {
-        return "========= INTERNET BILL =========";
+        return "---------------- INTERNET BILL -----------------";
     }
 
     @Override
@@ -156,7 +176,8 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
 
     @Override
 	public String getStatementFooter() {
-		return "Total: " + getFinalBill();
+		return "Total             : " + getFinalBill() +
+			   "\n------------------------------------------------";
 	}
 
     @Override
@@ -175,8 +196,8 @@ public class InternetAccount extends SubscriptionAccount implements Reconnectabl
 			System.out.println("Plan Tier      : " + getHouseholdType() + " " + getPlanTier());
 			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
 			System.out.println("Payment Status : " + getPaymentStatus());
-			System.out.println("Service Status : " + (isActive() ? "Active" : "For Monitoring"));
-			System.out.println("----------------------------------------");
+			System.out.println("Service Status : " + getServiceStatus());
+			System.out.println("------------------------------------------------");
 		} else {
 			printStatement();
 		}
