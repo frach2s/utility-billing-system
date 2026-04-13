@@ -77,15 +77,26 @@ public class BundledAccount extends SubscriptionAccount implements Reconnectable
                "Total Bill         : " + String.format("%.2f", getFinalBill()) + "\n" +
                "Paid Amount        : " + String.format("%.2f", getPaidAmount()) + "\n" +
                "Remaining Balance  : " + String.format("%.2f", getOutstandingBalance()) +
-			   "================================================\n";
+			   "\n================================================\n";
     }
+	
+	@Override
+	public String getServiceStatus() {
+		if (getPreviousBalance() >= 12000) {
+			return "Inactive";
+		} else if (isActive()) {
+			return "Active";
+		} else {
+			return "For Monitoring";
+		}
+	}
 
     // ===================== FROM RECONNECTABLE (INTERFACE) =====================
 
     @Override
     public boolean canReconnect() {
         
-        return !isActive() && getOutstandingBalance() <= 0;
+        return !isActive() && getOutstandingBalance() <= 12000;
     }
 
     @Override
