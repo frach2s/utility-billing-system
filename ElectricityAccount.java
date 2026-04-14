@@ -171,18 +171,18 @@ public class ElectricityAccount extends SubscriptionAccount implements Reconnect
         System.out.println(getStatementBody());
         System.out.println(getStatementFooter());
     }
-
-    @Override
-	public void printStatement(boolean shortMode) {
+	
+	@Override
+    public void printStatement(boolean shortMode) {
     if (shortMode) {
         System.out.println("Account No.    : " + getAccountNumber());
         System.out.println("Customer Name  : " + getCustomerName());
-			System.out.println("Service Type   : " + getServiceType());
+		System.out.println("Service Type   : " + getServiceType());
         System.out.println("Plan Tier      : " + getHouseholdType() + " " + getPlanTier());
-			System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()));
-			System.out.println("Payment Status : " + getPaymentStatus());
-			System.out.println("Service Status : " + getServiceStatus());
-			System.out.println("------------------------------------------------");
+		System.out.println("Final Bill     : " + String.format("%.2f", getFinalBill()- getPaidAmount()));
+		System.out.println("Payment Status : " + getPaymentStatus());			
+		System.out.println("Service Status : " + getServiceStatus());
+		System.out.println("------------------------------------------------");
 		} else {
 			printStatement();
 		}
